@@ -5,8 +5,9 @@ export interface CheeseDocument extends Document {
   userId?: mongoose.Types.ObjectId;
   description?: string;
   date?: Date;
-  milk_type?: string;
-  milk_quantity?: number;
+  milkType?: string;
+  milkOrigin: string;
+  milkQuantity?: number;
   public?: boolean;
   status?: string;
 }
@@ -16,11 +17,12 @@ const cheeseSchema = new mongoose.Schema<CheeseDocument>(
     name: { type: String },
     userId: { type: mongoose.Types.ObjectId, ref: "users" },
     description: { type: String },
-    date: { type: Date },
-    milk_type: { type: String },
-    milk_quantity: { type: Number },
-    public: { type: Boolean },
-    status: { type: String },
+    date: { type: Date, default: Date.now },
+    milkType: { type: String },
+    milkOrigin: { type: String, default: "Local" }, // Valor per defecte
+    milkQuantity: { type: Number },
+    public: { type: Boolean, default: false} ,
+    status: { type: String, default: "Per fer", enum: ['Per fer', 'Fent', 'Madurant', 'Fet', 'Consumint', 'Menjat'] },
   },
   {
     timestamps: true,

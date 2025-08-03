@@ -20,10 +20,10 @@ export const validatorCheese = [
     .isIn(['Per fer', 'Fent', 'Madurant', 'Fet', 'Consumint', 'Menjat'])
     .withMessage("L'estat no és vàlid."),
 
-  check("milk_type")
+  check("milkType")
     .exists({ checkFalsy: true }).withMessage("El tipus de llet és obligatori."),
 
-  check("milk_quantity")
+  check("milkQuantity")
     .exists({ checkFalsy: true }).withMessage("La quantitat de llet és obligatòria.")
     .isNumeric().withMessage("La quantitat ha de ser un número."),
 
