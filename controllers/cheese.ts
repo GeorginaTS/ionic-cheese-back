@@ -11,7 +11,6 @@ export const getAllCheeses = async (
     const userId = (req as any).user.uid; // ve del token Firebase
     const cheeses: CheeseDocument[] = await cheeseModel.find({ userId });
     console.log("Cheeses for user", userId, cheeses);
-
     res.status(200).json(cheeses);
   } catch (error) {
     console.error("Error fetching cheeses:", error);
