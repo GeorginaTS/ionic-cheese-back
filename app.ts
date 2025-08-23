@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import dbConnect from './config/db';
 import cheeseRoutes from './routes/cheeses';
-import userRoutes from './routes/users';
 import worldCheesesRoutes from './routes/world-cheeses';
 import cors from 'cors';
 
@@ -9,7 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/cheeses', cheeseRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/world-cheeses', worldCheesesRoutes);
 
 const PORT =  process.env.PORT || 3000 || 3001;

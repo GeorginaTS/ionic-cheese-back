@@ -2,10 +2,16 @@ import { Request, Response } from "express";
 import cheeseModel, { CheeseDocument } from "../models/cheeses";
 
 // GET /cheeses
-export const getAllCheeses = async (req: Request, res: Response): Promise<void> => {
+
+export const getAllCheeses = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
-    const cheeses: CheeseDocument[] = await cheeseModel.find();
-    console.log("cheeses", cheeses);
+    const userId = (req as any).user.uid; // ve del token Firebase
+    const cheeses: CheeseDocument[] = await cheeseModel.find({ userId });
+    console.log("Cheeses for user", userId, cheeses);
+
     res.status(200).json(cheeses);
   } catch (error) {
     console.error("Error fetching cheeses:", error);
@@ -14,10 +20,17 @@ export const getAllCheeses = async (req: Request, res: Response): Promise<void> 
 };
 
 // GET /cheeses/:id
-export const getOneCheese = async (req: Request, res: Response): Promise<void> => {
+export const getOneCheese = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
-    const cheese: CheeseDocument | null = await cheeseModel.findById(id);
+    const userId = (req as any).user.uid;
+    const cheese: CheeseDocument | null = await cheeseModel.findOne({
+      _id: id,
+      userId, // només buscarà si el formatge pertany a l’usuari
+    });
 
     cheese
       ? res.status(200).json({ msg: "Cheese found", cheese })
@@ -28,23 +41,41 @@ export const getOneCheese = async (req: Request, res: Response): Promise<void> =
 };
 
 // POST /cheeses
-export const createCheese = async (req: Request, res: Response): Promise<void> => {
+export const createCheese = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
+    const userId = (req as any).user.uid; // ve del middleware d’autenticació Firebase
     const cheeseData: Partial<CheeseDocument> = req.body;
-    const newCheese: CheeseDocument = await cheeseModel.create(cheeseData);
+
+    // Creem el formatge associat a l’usuari autenticat
+    const newCheese: CheeseDocument = await cheeseModel.create({
+      ...cheeseData,
+      userId,  // assegurem que el camp sempre correspon a l’usuari connectat
+    });
+
     res.status(201).json({ msg: "Cheese created", cheese: newCheese });
   } catch (error) {
     res.status(500).json({ msg: "Error creating cheese", error });
   }
 };
 
+
 // PUT /cheeses/:id
-export const updateOneCheese = async (req: Request, res: Response): Promise<void> => {
+export const updateOneCheese = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
+    const userId = (req as any).user.uid; // del middleware d’autenticació
     const updatedData: Partial<CheeseDocument> = req.body;
 
-    const updatedCheese: CheeseDocument | null = await cheeseModel.findByIdAndUpdate(id, updatedData, { new: true });
+    const updatedCheese: CheeseDocument | null =
+      await cheeseModel.findOneAndUpdate({ _id: id, userId }, updatedData, {
+        new: true,
+      });
 
     updatedCheese
       ? res.status(200).json({ msg: "Cheese updated", cheese: updatedCheese })
@@ -55,10 +86,19 @@ export const updateOneCheese = async (req: Request, res: Response): Promise<void
 };
 
 // DELETE /cheeses/:id
-export const deleteOneCheese = async (req: Request, res: Response): Promise<void> => {
+export const deleteOneCheese = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { id } = req.params;
-    const deletedCheese: CheeseDocument | null = await cheeseModel.findByIdAndDelete(id);
+    const userId = (req as any).user.uid; // del middleware
+
+    const deletedCheese: CheeseDocument | null =
+      await cheeseModel.findOneAndDelete({
+        _id: id,
+        userId, // només elimina si és propietat de l’usuari
+      });
 
     deletedCheese
       ? res.status(200).json({ msg: "Cheese deleted", cheese: deletedCheese })
