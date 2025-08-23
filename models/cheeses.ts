@@ -2,7 +2,7 @@ import mongoose, { Document } from "mongoose";
 
 export interface CheeseDocument extends Document {
   name?: string;
-  userId?: mongoose.Types.ObjectId;
+  userId?: string;
   description?: string;
   date?: Date;
   milkType?: string;
@@ -15,14 +15,14 @@ export interface CheeseDocument extends Document {
 const cheeseSchema = new mongoose.Schema<CheeseDocument>(
   {
     name: { type: String },
-    userId: { type: mongoose.Types.ObjectId, ref: "users" },
+    userId: { type: String},
     description: { type: String },
     date: { type: Date, default: Date.now },
     milkType: { type: String },
     milkOrigin: { type: String, default: "Local" }, // Valor per defecte
     milkQuantity: { type: Number },
     public: { type: Boolean, default: false} ,
-    status: { type: String, default: "Per fer", enum: ['Per fer', 'Fent', 'Madurant', 'Fet', 'Consumint', 'Menjat'] },
+    status: { type: String, default: "To do"},
   },
   {
     timestamps: true,
