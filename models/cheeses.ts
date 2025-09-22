@@ -10,6 +10,9 @@ export interface CheeseDocument extends Document {
   milkQuantity?: number;
   public?: boolean;
   status?: string;
+  making?: object;
+  ripening?: object;
+  taste?: object;
 }
 
 const cheeseSchema = new mongoose.Schema<CheeseDocument>(
@@ -23,6 +26,9 @@ const cheeseSchema = new mongoose.Schema<CheeseDocument>(
     milkQuantity: { type: Number },
     public: { type: Boolean, default: false} ,
     status: { type: String, default: "To do"},
+    making: { type: Object, default: {} },
+    ripening: { type: Object, default: {} },
+    taste: { type: Object, default: {} }
   },
   {
     timestamps: true,
