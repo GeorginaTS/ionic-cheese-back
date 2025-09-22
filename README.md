@@ -82,11 +82,13 @@ The server will run on port 3000 by default.
 
 ## Author
 
-**Georgina TS** - *Lead Developer*
+**Georgina TS** - [GitHub](https://github.com/GeorginaTS)
 
 ## License
 
-This project is protected by copyright © 2025 Georgina TS. All rights reserved.
+## 📄 License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
 
 ### Terms of Use
 
@@ -96,7 +98,5 @@ This project is protected by copyright © 2025 Georgina TS. All rights reserved.
 - ❌ You cannot redistribute the code without explicit permission
 - ❌ You cannot use this code commercially without authorization
 - 📝 **Required**: You must always mention the original author (Georgina TS) in any use or derivation of the code
-
-Per obtenir permisos addicionals o per a ús comercial, contacta amb l'autora.
 
 For additional permissions or commercial use, please contact the author.
