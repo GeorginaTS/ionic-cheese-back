@@ -1,8 +1,40 @@
 import { Request, Response } from "express";
 import cheeseModel, { CheeseDocument } from "../models/cheeses";
 
-// GET /cheeses
+// GET /cheeses/public
+export const getAllPublicCheeses = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const cheeses: CheeseDocument[] = await cheeseModel.find({ public: true });
+    console.log("Public", cheeses);
+    res.status(200).json({ msg: "Public cheeses fetched", cheeses });
+  } catch (error) {
+    console.error("Error fetching cheeses:", error);
+    res.status(500).json({ msg: "Error fetching  public cheeses", error });
+  }
+};
+export const getOnePublicCheeses = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const cheese: CheeseDocument | null = await cheeseModel.findOne({
+      _id: id,
+      public: true,
+    });
 
+    cheese
+      ? res.status(200).json({ msg: "Public cheese found", cheese })
+      : res.status(404).json({ msg: "Public cheese not found", id });
+  } catch (error) {
+    res.status(500).json({ msg: "Error getting public cheese", error });
+  }
+};
+
+// GET /cheeses
 export const getAllCheeses = async (
   req: Request,
   res: Response

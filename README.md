@@ -89,14 +89,3 @@ The server will run on port 3000 by default.
 ## 📄 License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more details.
-
-### Terms of Use
-
-- ✅ You can use this code for educational purposes
-- ✅ You can study and learn from the code
-- ✅ You can fork the repository for experimentation
-- ❌ You cannot redistribute the code without explicit permission
-- ❌ You cannot use this code commercially without authorization
-- 📝 **Required**: You must always mention the original author (Georgina TS) in any use or derivation of the code
-
-For additional permissions or commercial use, please contact the author.
