@@ -7,7 +7,9 @@ export const getAllPublicCheeses = async (
   res: Response
 ): Promise<void> => {
   try {
-    const cheeses: CheeseDocument[] = await cheeseModel.find({ public: true });
+    const cheeses: CheeseDocument[] = await cheeseModel
+      .find({ public: true })
+      .sort({ updateData: -1 });
     console.log("Public", cheeses);
     res.status(200).json({ msg: "Public cheeses fetched", cheeses });
   } catch (error) {
@@ -41,7 +43,9 @@ export const getAllCheeses = async (
 ): Promise<void> => {
   try {
     const userId = (req as any).user.uid; // ve del token Firebase
-    const cheeses: CheeseDocument[] = await cheeseModel.find({ userId });
+    const cheeses: CheeseDocument[] = await cheeseModel
+      .find({ userId })
+      .sort({ updateData: -1 });
     console.log("Cheeses for user", userId, cheeses);
     res.status(200).json(cheeses);
   } catch (error) {
@@ -83,7 +87,7 @@ export const createCheese = async (
     // Creem el formatge associat a l’usuari autenticat
     const newCheese: CheeseDocument = await cheeseModel.create({
       ...cheeseData,
-      userId,  // assegurem que el camp sempre correspon a l’usuari connectat
+      userId, // assegurem que el camp sempre correspon a l’usuari connectat
     });
 
     res.status(201).json({ msg: "Cheese created", cheese: newCheese });
@@ -91,7 +95,6 @@ export const createCheese = async (
     res.status(500).json({ msg: "Error creating cheese", error });
   }
 };
-
 
 // PUT /cheeses/:id
 export const updateOneCheese = async (
