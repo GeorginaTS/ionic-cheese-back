@@ -9,7 +9,7 @@ export const getAllPublicCheeses = async (
   try {
     const cheeses: CheeseDocument[] = await cheeseModel
       .find({ public: true })
-      .sort({ updateData: 1 });
+      .sort({ date: -1 });
     console.log("Public", cheeses);
     res.status(200).json({ msg: "Public cheeses fetched", cheeses });
   } catch (error) {
