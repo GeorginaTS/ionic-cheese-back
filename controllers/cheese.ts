@@ -141,3 +141,41 @@ export const deleteOneCheese = async (
     res.status(500).json({ msg: "Error deleting cheese", error });
   }
 };
+
+export const likeCheese = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const userId = (req as any).user.uid;
+
+    const cheese: CheeseDocument | null = await cheeseModel.findOne({
+      _id: id,
+      public: true,
+    });
+
+    if (!cheese) {
+      res.status(404).json({ msg: "Cheese not found", id });
+      return;
+    }
+
+    // Afegir l'usuari a la llista de "likedBy"
+    if (!cheese.likedBy) {
+      cheese.likedBy = [];
+    }
+    const alreadyLiked = cheese.likedBy.includes(userId);
+    if (alreadyLiked) {
+      // treu el like
+      cheese.likedBy = cheese.likedBy.filter(id => id !== userId);
+    } else {
+      // afegeix el like
+      cheese.likedBy.push(userId);
+    }
+    await cheese.save();
+
+    res.status(200).json({ msg: "Cheese liked", cheese });
+  } catch (error) {
+    res.status(500).json({ msg: "Error liking cheese", error });
+  }
+};  

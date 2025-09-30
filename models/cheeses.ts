@@ -13,6 +13,7 @@ export interface CheeseDocument extends Document {
   making?: object;
   ripening?: object;
   taste?: object;
+  likedBy?: string[];
 }
 
 const cheeseSchema = new mongoose.Schema<CheeseDocument>(
@@ -28,7 +29,8 @@ const cheeseSchema = new mongoose.Schema<CheeseDocument>(
     status: { type: String, default: "To do"},
     making: { type: Object, default: {} },
     ripening: { type: Object, default: {} },
-    taste: { type: Object, default: {} }
+    taste: { type: Object, default: {} }, 
+    likedBy: { type: [String], default: [] }, // Array d'IDs d'usuaris que han fet "like"
   },
   {
     timestamps: true,
