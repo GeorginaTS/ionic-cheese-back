@@ -7,7 +7,7 @@ import {getAllCheeses, getOneCheese, createCheese, updateOneCheese, deleteOneChe
 router.get("/", verifyToken, getAllCheeses)
 router.get("/public", getAllPublicCheeses)
 router.get("/public/:id", getOnePublicCheeses)
-router.post("/public/like/:id", verifyToken, likeCheese)
+router.put("/public/like/:id", verifyToken, likeCheese)
 router.get("/:id", verifyToken, getOneCheese)
 router.post("/", verifyToken, createCheese)
 router.put("/:id", verifyToken, updateOneCheese) 
