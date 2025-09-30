@@ -159,7 +159,7 @@ export const likeCheese = async (
       res.status(404).json({ msg: "Cheese not found", id });
       return;
     }
-
+    console.log("Cheese before like:", cheese);
     // Afegir l'usuari a la llista de "likedBy"
     if (!cheese.likedBy) {
       cheese.likedBy = [];
@@ -173,12 +173,8 @@ export const likeCheese = async (
       cheese.likedBy.push(userId);
     }
     await cheese.save();
-
-    res.json({
-      cheeseId: cheese._id,
-      likesCount: cheese.likedBy.length,
-      liked: !alreadyLiked
-    });
+    console.log("Cheese after like:", cheese);
+    res.status(200).json({ msg: "Cheese liked", cheese });
   } catch (error) {
     res.status(500).json({ msg: "Error liking cheese", error });
   }
