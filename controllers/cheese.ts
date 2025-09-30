@@ -148,6 +148,11 @@ export const likeCheese = async (
 ): Promise<void> => {
   try {
     const { id } = req.params;
+    // Verificar si l'usuari està autenticat
+    if (!(req as any).user || !(req as any).user.uid) {
+      res.status(401).json({ msg: "Authentication required to like cheese" });
+      return;
+    }
     const userId = (req as any).user.uid;
 
     const cheese: CheeseDocument | null = await cheeseModel.findOne({
@@ -167,7 +172,7 @@ export const likeCheese = async (
     const alreadyLiked = cheese.likedBy.includes(userId);
     if (alreadyLiked) {
       // treu el like
-      cheese.likedBy = cheese.likedBy.filter(id => id !== userId);
+      cheese.likedBy = cheese.likedBy.filter((id) => id !== userId);
     } else {
       // afegeix el like
       cheese.likedBy.push(userId);
@@ -178,4 +183,4 @@ export const likeCheese = async (
   } catch (error) {
     res.status(500).json({ msg: "Error liking cheese", error });
   }
-};  
+};
