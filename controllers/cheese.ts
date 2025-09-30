@@ -174,7 +174,11 @@ export const likeCheese = async (
     }
     await cheese.save();
 
-    res.status(200).json({ msg: "Cheese liked", cheese });
+    res.json({
+      cheeseId: cheese._id,
+      likesCount: cheese.likedBy.length,
+      liked: !alreadyLiked
+    });
   } catch (error) {
     res.status(500).json({ msg: "Error liking cheese", error });
   }
